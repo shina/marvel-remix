@@ -108,7 +108,9 @@ function selectFromHand(id) {
   switch (actionId) {
     case XJET:
       click.play();
-      hand.getCardById(actionId).actionData = [id];
+      if (id !== XJET) {
+        hand.getCardById(actionId).actionData = [id];
+      }
       updateHandView();
       actionId = NONE;
       break;
