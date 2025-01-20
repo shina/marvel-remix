@@ -134,12 +134,12 @@ var remixCards = {
     }
   },
   'MR13': {
-    // TODO: ROGUE may copy the base power and one tag of another HERO in your hand.
     id: 'MR13',
     type: 'hero',
     name: 'Rogue',
     strength: 0,
     tags: ['mutant'],
+    action: true,
     bonusScore: function (hand) {
       return 0;
     }
@@ -959,5 +959,6 @@ function allTypes() {
 const NONE = -1;
 const VISION = 'MR22';
 const XJET = 'MR37';
+const ROGUE = 'MR13';
 
-const ACTION_ORDER = [VISION, XJET];
+const ACTION_ORDER = [VISION, XJET, ROGUE];

@@ -394,3 +394,16 @@ span.tag.urban::after {
 span.tag.boss::after {
   background-image: url('../icons/BOSS.svg');
 }
+
+#tag-selection span.tag::after {
+  width: 2rem;
+  height: 2rem;
+  background-size: 2rem;
+  cursor: pointer;
+}
+#tag-selection .tag-selection-tags {
+  text-align: center;
+}
+#tag-selection .tag-selection-tags .tag {
+  margin: 0 0.5rem;
+}

@@ -320,6 +320,13 @@ class CardInHand {
           hand.getCardById(this.actionData[0])?.tags.push('range');
         }
         break;
+
+      case ROGUE:
+        if (this.actionData !== undefined) {
+          this.strength = hand.getCardById(this.actionData[0])?.strength ?? 0;
+          this.tags.push(this.actionData[1]);
+        }
+        break;
     }
   }
 

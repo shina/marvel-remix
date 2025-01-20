@@ -110,13 +110,22 @@ function selectFromHand(id) {
       click.play();
       hand.getCardById(actionId).actionData = [id];
       updateHandView();
+      actionId = NONE;
+      break;
+
+    case ROGUE:
+      click.play();
+      if (id === ROGUE) {
+        updateHandView();
+        return;
+      }
+      hand.getCardById(actionId).actionData = [id];
+      showTagSelection(jQuery.i18n.prop(actionId + '.secAction'), deck.getCardById(id).tags);
       break;
 
     default:
       removeFromHand(id);
   }
-
-  actionId = NONE;
 }
 
 function removeFromHand(id) {
@@ -180,12 +189,17 @@ function useCardAction(id) {
 
   switch (id) {
     case XJET:
-      const template = Handlebars.compile($('#hand-template').html());
-      const html = template({
-        playerCards: hand.cards()
-            .filter(card => card.type === 'hero' || card.type === 'ally' || card.id === XJET)
-      });
-      $('#hand').html(html);
+      showActionHand(
+          hand.cards()
+              .filter(card => card.type === 'hero' || card.type === 'ally' || card.id === XJET)
+      );
+      break;
+
+    case ROGUE:
+      showActionHand(
+          hand.cards()
+              .filter(card => card.type === 'hero')
+      );
       break;
 
     default:
@@ -196,6 +210,14 @@ function useCardAction(id) {
   $('#card-action-text-' + id).html(jQuery.i18n.prop(id + '.action'));
   $('#card-action-use-' + id).hide();
   $('#card-action-cancel-' + id).show();
+}
+
+function showActionHand(cards) {
+  const template = Handlebars.compile($('#hand-template').html());
+  const html = template({
+    playerCards: cards
+  });
+  $('#hand').html(html);
 }
 
 function cancelCardAction(id) {
@@ -232,4 +254,25 @@ function showCards(types) {
     allowProtoMethodsByDefault: true
   });
   $('#cards').html(html);
+}
+
+function showTagSelection(title, tags) {
+  $('#tag-selection-title').html(title);
+
+  const template = Handlebars.compile($("#tag-selection-template").html());
+  const html = template({ tags });
+  $('#tag-selection-body').html(html);
+
+  $('#tag-selection').modal('show');
+}
+
+function selectTag(tag) {
+  click.play();
+  if (actionId === ROGUE) {
+    hand.getCardById(actionId).actionData.push(tag);
+    $('#tag-selection').modal('hide');
+
+    updateHandView();
+    actionId = NONE;
+  }
 }
